@@ -4,6 +4,7 @@
 #addin nuget:?package=Cake.Git&version=0.22.0
 
 var pluginName = "BetterProfanityFilter";
+var pluginDisplayName = "Better Profanity Filter";
 var configuration = Argument ("configuration", "Release");
 var version = GitVersion ().SemVer;
 var profanityLib = "ProfanityFilter";
@@ -32,7 +33,7 @@ Task ("Update-Plugin-Json")
     .IsDependentOn ("Update-Assembly-Info")
     .Does (() => {
         string json = System.IO.File.ReadAllText("./src/" + pluginName + "/Properties/" + pluginName + ".json");
-        json = TransformText(json).WithToken("name", pluginName).ToString();
+        json = TransformText(json).WithToken("name", pluginDisplayName).ToString();
         json = TransformText(json).WithToken("version", version).ToString();
         System.IO.File.WriteAllText("./src/" + pluginName + "/bin/" + pluginName + ".json", json);
 });
@@ -69,7 +70,7 @@ Task("Publish-Custom-Repo")
 
         // create new json for test version
         string json = System.IO.File.ReadAllText("./src/" + pluginName + "/Properties/" + pluginName + ".json");
-        json = TransformText(json).WithToken("name", pluginName + " [Canary]").ToString();
+        json = TransformText(json).WithToken("name", pluginDisplayName + " [Canary]").ToString();
         json = TransformText(json).WithToken("version", version).ToString();
         System.IO.File.WriteAllText("./src/" + pluginName + "/bin/" + pluginName + ".json", json);
 
